@@ -4,6 +4,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"fmt"
 )
 
 // Struct data untuk dikirim ke templat
@@ -21,6 +22,7 @@ func init() {
 	// Ini memuat "index.html", "profile.html", "header.html", dan "footer.html"
 	// ke dalam satu koleksi templat.
 	tmpl = template.Must(template.ParseGlob("templates/*.html"))
+	loadEnvFile(".env")
 }
 
 func indexHandler(res http.ResponseWriter, req *http.Request) {
@@ -53,6 +55,9 @@ func profileHandler(res http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
+	my_env := GetEnv("MY_ENV", "ini default value")
+	fmt.Println(my_env)
+
 	http.HandleFunc("/", indexHandler)
 	http.HandleFunc("/profile", profileHandler)
 
